@@ -36,9 +36,10 @@ Discord Midjourney 参数可视化
 
 🛠️ 使用说明：
 
-1. 安装插件后，访问 [https://discord.com](https://discord.com)。
-2. 页面右下角将出现 “MJ参数” 按钮。
-3. 点击按钮，即可打开参数设置面板。
-4. 完成配置后点击“拷贝参数”，然后粘贴到你要发图的 prompt 输入框中。
+1. 安装插件 [[参数可视化]](https://chromewebstore.google.com/detail/pjmgfphjikbdfnoejedbbejmmpkhcmbb?utm_source=item-share-cb)。
+2. 访问 [https://discord.com](https://discord.com)。
+3. 页面右下角将出现 “MJ参数” 按钮。
+4. 点击按钮，即可打开参数设置面板。
+5. 完成配置后点击“拷贝参数”，然后粘贴到你要发图的 prompt 输入框中。
 
 ---
