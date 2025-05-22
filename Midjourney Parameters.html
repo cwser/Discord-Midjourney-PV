@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Midjourney参数对比表</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#7B61FF',
+            neutral: '#F5F7FA',
+            dark: '#1D2129',
+            light: '#FFFFFF',
+            success: '#00B42A',
+            warning: '#FF7D00',
+            danger: '#F53F3F',
+          },
+          fontFamily: {
+            inter: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 4px 20px rgba(0, 0, 0, 0.08)',
+            'card-hover': '0 8px 30px rgba(0, 0, 0, 0.12)',
+          }
+        },
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-balance {
+        text-wrap: balance;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .parameter-highlight {
+        @apply bg-primary/10 text-primary font-medium rounded px-1 py-0.5;
+      }
+      .version-badge {
+        @apply inline-flex items-center justify-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+      }
+      .parameter-cell {
+        @apply px-4 py-3 text-sm border-b border-gray-200;
+      }
+      .hover-row:hover {
+        @apply bg-neutral/50 transition-colors;
+      }
+      .tooltip {
+        @apply invisible absolute bg-dark text-white text-xs rounded py-1 px-2 -mt-12 opacity-0 transition-opacity duration-300 z-10 whitespace-nowrap;
+      }
+      .has-tooltip:hover .tooltip {
+        @apply visible opacity-100;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-50 font-inter text-dark min-h-screen">
+  <div class="container mx-auto px-4 py-8 max-w-7xl">
+    <header class="mb-10 text-center">
+      <h1 class="text-[clamp(1.8rem,5vw,2.8rem)] font-bold text-dark mb-4">Midjourney 参数对比表</h1>
+      <p class="text-gray-600 max-w-3xl mx-auto text-balance">
+        全面比较 Midjourney 各版本（V7、V6.1、V6、Niji 6、V5.2、V5.1、V5、V4、Niji 5、Niji 4）的参数范围与特性差异
+      </p>
+    </header>
+
+    <main>
+      <!-- 版本说明卡片 -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div class="bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300 transform hover:-translate-y-1">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              <i class="fa fa-star"></i>
+            </div>
+            <h3 class="ml-3 text-lg font-semibold">V7</h3>
+          </div>
+          <p class="text-gray-600">最新版本，引入了Omni Reference功能，支持更灵活的创意控制和图像生成。</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300 transform hover:-translate-y-1">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+              <i class="fa fa-paint-brush"></i>
+            </div>
+            <h3 class="ml-3 text-lg font-semibold">Niji 系列</h3>
+          </div>
+          <p class="text-gray-600">专注于动漫风格的生成模型，提供多种动漫风格选项和参数调整。</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-card p-6 hover:shadow-card-hover transition-shadow duration-300 transform hover:-translate-y-1">
+          <div class="flex items-center mb-4">
+            <div class="w-10 h-10 rounded-full bg-success/10 flex items-center justify-center text-success">
+              <i class="fa fa-info-circle"></i>
+            </div>
+            <h3 class="ml-3 text-lg font-semibold">使用提示</h3>
+          </div>
+          <p class="text-gray-600">点击参数查看详细说明，悬停行可查看更多对比细节。</p>
+        </div>
+      </div>
+
+      <!-- 主要参数对比表格 -->
+      <div class="bg-white rounded-xl shadow-card overflow-hidden mb-10">
+        <div class="p-6 border-b border-gray-200">
+          <h2 class="text-xl font-semibold">主要版本参数对比</h2>
+          <p class="text-gray-500 text-sm mt-1">V7、V6.1、V6 和 Niji 6 的核心参数与范围</p>
+        </div>
+        
+        <div class="overflow-x-auto scrollbar-hide">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">参数</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-primary/10 text-primary">V7</span>
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-secondary/10 text-secondary">V6.1</span>
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-purple-100 text-purple-600">V6</span>
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-purple-100 text-purple-600">Niji 6</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--ar</span> Aspect Ratio（宽高比）</td>
+                <td class="parameter-cell">任意比例</td>
+                <td class="parameter-cell">任意比例</td>
+                <td class="parameter-cell">任意比例</td>
+                <td class="parameter-cell">任意比例</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--chaos</span> / <span class="parameter-highlight">--c</span>（混乱度）</td>
+                <td class="parameter-cell">0-100</td>
+                <td class="parameter-cell">0-100</td>
+                <td class="parameter-cell">0-100</td>
+                <td class="parameter-cell">0-100</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--cref</span> Character Reference（角色参考）</td>
+                <td class="parameter-cell"><span class="text-danger">不支持</span></td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--sref</span> Style Reference（风格参考）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--iw</span> Image Weight（图像权重）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">0.5-2，默认1</td>
+                <td class="parameter-cell">0.5-2，默认1</td>
+                <td class="parameter-cell">0.5-2，默认1</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--no</span>（排除项）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--profile</span> / <span class="parameter-highlight">--p</span> Personalization（个性化）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--quality</span> / <span class="parameter-highlight">--q</span>（质量）</td>
+                <td class="parameter-cell">1, 2, 4</td>
+                <td class="parameter-cell">0.5, 1, 2</td>
+                <td class="parameter-cell">0.5, 1, 2</td>
+                <td class="parameter-cell">0.5, 1, 2</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--repeat</span> / <span class="parameter-highlight">--r</span>（重复次数）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--seed</span>（随机种子）</td>
+                <td class="parameter-cell">0-4294967295</td>
+                <td class="parameter-cell">0-4294967295</td>
+                <td class="parameter-cell">0-4294967295</td>
+                <td class="parameter-cell">0-4294967295</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--stop</span>（提前停止）</td>
+                <td class="parameter-cell"><span class="text-danger">不支持</span></td>
+                <td class="parameter-cell">10-100</td>
+                <td class="parameter-cell">10-100</td>
+                <td class="parameter-cell">10-100</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--raw</span> Raw Mode（原始模式）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--stylize</span> / <span class="parameter-highlight">--s</span>（风格化程度）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">0-1000，默认100</td>
+                <td class="parameter-cell">0-1000，默认100</td>
+                <td class="parameter-cell">0-1000，默认100</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--tile</span>（平铺模式）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--draft</span> Draft Mode（草稿模式）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell"><span class="text-danger">不支持</span></td>
+                <td class="parameter-cell"><span class="text-danger">不支持</span></td>
+                <td class="parameter-cell"><span class="text-danger">不支持</span></td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--weird</span> / <span class="parameter-highlight">--w</span>（怪异度）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">0-3000</td>
+                <td class="parameter-cell">0-3000</td>
+                <td class="parameter-cell">0-3000</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--fast / --relax / --turbo</span>（模式）</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">--oref / --ow</span> Omni Reference（万能参考）</td>
+                <td class="parameter-cell has-tooltip">
+                  支持（仅V7）
+                  <span class="tooltip">V7独有功能，提供更强大的参考控制</span>
+                </td>
+                <td class="parameter-cell"><span class="text-danger">不支持</span></td>
+                <td class="parameter-cell"><span class="text-danger">不支持</span></td>
+                <td class="parameter-cell"><span class="text-danger">不支持</span></td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Pan/Zoom/Editor/Full Editor/Remix/Variations/Upscalers</span></td>
+                <td class="parameter-cell has-tooltip">
+                  支持
+                  <span class="tooltip">部分功能基于V6.1实现</span>
+                </td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+                <td class="parameter-cell">支持</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 旧版本参数对比表格 -->
+      <div class="bg-white rounded-xl shadow-card overflow-hidden">
+        <div class="p-6 border-b border-gray-200">
+          <h2 class="text-xl font-semibold">旧版本与特殊参数对比</h2>
+          <p class="text-gray-500 text-sm mt-1">V5.2、V5.1、V5、V4、Niji 5、Niji 4 的参数与范围</p>
+        </div>
+        
+        <div class="overflow-x-auto scrollbar-hide">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">参数</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-blue-100 text-blue-600">V5.2</span>
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-blue-100 text-blue-600">V5.1</span>
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-blue-100 text-blue-600">V5</span>
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-blue-100 text-blue-600">V4</span>
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-pink-100 text-pink-600">Niji 5</span>
+                </th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <span class="version-badge bg-pink-100 text-pink-600">Niji 4</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Aspect Ratio</span>（宽高比）</td>
+                <td class="parameter-cell">任意</td>
+                <td class="parameter-cell">任意</td>
+                <td class="parameter-cell">任意</td>
+                <td class="parameter-cell">1:2/2:1（4c 支持 2:1）</td>
+                <td class="parameter-cell">任意</td>
+                <td class="parameter-cell">1:2/2:1</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Chaos</span>（混乱度）</td>
+                <td class="parameter-cell">0-100</td>
+                <td class="parameter-cell">0-100</td>
+                <td class="parameter-cell">0-100</td>
+                <td class="parameter-cell">0-100</td>
+                <td class="parameter-cell">0-100</td>
+                <td class="parameter-cell">0-100</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Quality</span>（质量）</td>
+                <td class="parameter-cell">0.25, 0.5, 1</td>
+                <td class="parameter-cell">0.25, 0.5, 1</td>
+                <td class="parameter-cell">0.25, 0.5, 1</td>
+                <td class="parameter-cell">0.25, 0.5, 1</td>
+                <td class="parameter-cell">0.25-2</td>
+                <td class="parameter-cell">0.25-2</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Seed</span>（随机种子）</td>
+                <td class="parameter-cell">0-4294967295</td>
+                <td class="parameter-cell">0-4294967295</td>
+                <td class="parameter-cell">0-4294967295</td>
+                <td class="parameter-cell">0-4294967295</td>
+                <td class="parameter-cell">0-4294967295</td>
+                <td class="parameter-cell">0-4294967295</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Stop</span>（提前停止）</td>
+                <td class="parameter-cell">10-100</td>
+                <td class="parameter-cell">10-100</td>
+                <td class="parameter-cell">10-100</td>
+                <td class="parameter-cell">10-100</td>
+                <td class="parameter-cell">10-100</td>
+                <td class="parameter-cell">10-100</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Stylize</span>（风格化程度）</td>
+                <td class="parameter-cell">0-1000（默认 100）</td>
+                <td class="parameter-cell">0-1000（默认 100）</td>
+                <td class="parameter-cell">0-1000（默认 100）</td>
+                <td class="parameter-cell">0-1000（默认 100）</td>
+                <td class="parameter-cell">0-1000（默认 100）</td>
+                <td class="parameter-cell">0-1000（默认 100）</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Weird</span>（怪异度）</td>
+                <td class="parameter-cell">0-3000</td>
+                <td class="parameter-cell">0-3000</td>
+                <td class="parameter-cell">0-3000</td>
+                <td class="parameter-cell">0-3000</td>
+                <td class="parameter-cell">0-3000</td>
+                <td class="parameter-cell">0-3000</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Tile</span>（平铺模式）</td>
+                <td class="parameter-cell">可用</td>
+                <td class="parameter-cell">可用</td>
+                <td class="parameter-cell">可用</td>
+                <td class="parameter-cell">可用</td>
+                <td class="parameter-cell">可用</td>
+                <td class="parameter-cell">可用</td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Sameseed</span>（相同随机种子）</td>
+                <td class="parameter-cell"><span class="text-danger">不可用</span></td>
+                <td class="parameter-cell"><span class="text-danger">不可用</span></td>
+                <td class="parameter-cell"><span class="text-danger">不可用</span></td>
+                <td class="parameter-cell"><span class="text-danger">不可用</span></td>
+                <td class="parameter-cell"><span class="text-danger">不可用</span></td>
+                <td class="parameter-cell"><span class="text-primary font-bold">V3 独有</span></td>
+              </tr>
+              <tr class="hover-row">
+                <td class="parameter-cell"><span class="parameter-highlight">Style</span>（风格）</td>
+                <td class="parameter-cell"><span class="text-danger">不可用</span></td>
+                <td class="parameter-cell"><span class="text-danger">不可用</span></td>
+                <td class="parameter-cell">raw</td>
+                <td class="parameter-cell">4a, 4b, 4c</td>
+                <td class="parameter-cell">见 Niji 5 说明</td>
+                <td class="parameter-cell">见 Niji 4 说明</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 参数详情模态框 -->
+      <div id="parameterModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div class="p-6 border-b border-gray-200 flex justify-between items-center">
+            <h3 class="text-xl font-semibold" id="modalTitle">参数详情</h3>
+            <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+              <i class="fa fa-times"></i>
+            </button>
+          </div>
+          <div class="p-6" id="modalContent">
+            <!-- 参数详情将通过JavaScript动态填充 -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="mt-12 text-center text-gray-500 text-sm">
+      <p>© 2025 Midjourney 参数对比表 | 数据来自官方文档</p>
+      <p class="mt-2">最后更新: 2025年5月22日</p>
+    </footer>
+
+    <script>
+      // 模态框功能
+      const parameterModal = document.getElementById('parameterModal');
+      const closeModal = document.getElementById('closeModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalContent = document.getElementById('modalContent');
+      
+      // 参数详情数据
+      const parameterDetails = {
+        '--ar': '控制生成图像的宽高比。例如：--ar 16:9 会生成宽屏图像，--ar 1:1 会生成正方形图像。',
+        '--chaos': '控制生成过程中的随机性和混乱程度。值越高，生成的图像越随机、多样化；值越低，生成的图像越接近预期。范围从0到100。',
+        '--cref': 'Character Reference，用于指定角色参考。可以上传参考图像或使用已有的角色描述。',
+        '--sref': 'Style Reference，用于指定风格参考。可以上传参考图像或使用已有的风格描述。',
+        '--iw': 'Image Weight，控制参考图像对最终结果的影响程度。值越高，参考图像的影响越大。',
+        '--no': '排除某些元素或特征。例如：--no text 会尽量避免生成文字。',
+        '--profile': 'Personalization，用于个性化设置。可以关联用户的偏好和历史数据。',
+        '--quality': '控制生成图像的质量和渲染时间。值越高，质量越好，但渲染时间也越长。',
+        '--repeat': '重复生成相同参数的图像。例如：--repeat 5 会生成5张相同参数的图像。',
+        '--seed': '随机种子，用于固定生成结果。相同的提示词和种子值会生成相似的图像。',
+        '--stop': '提前停止生成过程。值为10-100，表示在生成过程的百分之多少处停止。',
+        '--raw': 'Raw Mode，使用原始模型进行生成，不应用任何后期处理。',
+        '--stylize': '控制Midjourney默认艺术风格的应用强度。值越高，风格化效果越明显。',
+        '--tile': '生成可无缝平铺的图像，适合用于纹理和背景。',
+        '--draft': 'Draft Mode，快速生成低质量图像，用于快速预览和测试。',
+        '--weird': '控制生成图像的怪异程度和实验性。值越高，生成的图像越奇特、抽象。',
+        '--fast': '快速模式，使用较少的计算资源，生成速度较快。',
+        '--relax': '放松模式，使用更多的计算资源，生成质量更高。',
+        '--turbo': 'Turbo模式，使用最多的计算资源，生成速度最快，但消耗更多信用点。',
+        '--oref': 'Omni Reference，V7独有的万能参考功能，支持更复杂的参考控制。',
+        '--ow': 'Omni Weight，与--oref配合使用，控制万能参考的权重。'
+      };
+      
+      // 为所有参数添加点击事件
+      document.querySelectorAll('.parameter-highlight').forEach(param => {
+        param.addEventListener('click', () => {
+          const paramName = param.textContent.trim().split(' ')[0];
+          if (parameterDetails[paramName]) {
+            modalTitle.textContent = paramName;
+            modalContent.textContent = parameterDetails[paramName];
+            parameterModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+          }
+        });
+      });
+      
+      // 关闭模态框
+      closeModal.addEventListener('click', () => {
+        parameterModal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+      });
+      
+      // 点击模态框外部关闭
+      parameterModal.addEventListener('click', (e) => {
+        if (e.target === parameterModal) {
+          parameterModal.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        }
+      });
+      
+      // 添加键盘ESC关闭模态框
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !parameterModal.classList.contains('hidden')) {
+          parameterModal.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>
